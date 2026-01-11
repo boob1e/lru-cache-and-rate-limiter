@@ -1,8 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
-func TestScenario1_FirstAddition() {
+func TestScenario1_FirstAddition(t *testing.T) {
 	fmt.Println("\n### Test Scenario 1: First Addition (Empty Cache) ###")
 	cache := NewLRUCache[string](2)
 
@@ -16,7 +19,7 @@ func TestScenario1_FirstAddition() {
 	fmt.Println("Expected: Head=A, Tail=A, CurrentSize=1")
 }
 
-func TestScenario2_SecondAddition() {
+func TestScenario2_SecondAddition(t *testing.T) {
 	fmt.Println("\n### Test Scenario 2: Second Addition ###")
 	cache := NewLRUCache[string](2)
 	cache.Add("A", "ValueA")
@@ -31,7 +34,7 @@ func TestScenario2_SecondAddition() {
 	fmt.Println("Expected: Head=B->A, Tail=A, CurrentSize=2")
 }
 
-func TestScenario3_EvictionWhenFull() {
+func TestScenario3_EvictionWhenFull(t *testing.T) {
 	fmt.Println("\n### Test Scenario 3: Eviction When Full ###")
 	cache := NewLRUCache[string](2)
 	cache.Add("A", "ValueA")
@@ -47,7 +50,7 @@ func TestScenario3_EvictionWhenFull() {
 	fmt.Println("Expected: Head=C->B, Tail=B, CurrentSize=2, A should be evicted")
 }
 
-func TestScenario4_UpdateExistingKey() {
+func TestScenario4_UpdateExistingKey(t *testing.T) {
 	fmt.Println("\n### Test Scenario 4: Update Existing Key ###")
 	cache := NewLRUCache[string](2)
 	cache.Add("A", "ValueA")
@@ -63,7 +66,7 @@ func TestScenario4_UpdateExistingKey() {
 	fmt.Println("Expected: Head=A->B, Tail=B, CurrentSize=2 (no eviction)")
 }
 
-func TestScenario5_LookupMovesToHead() {
+func TestScenario5_LookupMovesToHead(t *testing.T) {
 	fmt.Println("\n### Test Scenario 5: Lookup Moves to Head ###")
 	cache := NewLRUCache[string](2)
 	cache.Add("A", "ValueA")
@@ -80,7 +83,7 @@ func TestScenario5_LookupMovesToHead() {
 	fmt.Println("Expected: Head=A->B, Tail=B, CurrentSize=2")
 }
 
-func TestScenario6_ComplexSequence() {
+func TestScenario6_ComplexSequence(t *testing.T) {
 	fmt.Println("\n### Test Scenario 6: Complex Sequence ###")
 	cache := NewLRUCache[int](3)
 
