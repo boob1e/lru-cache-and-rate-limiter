@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type Node[T any] struct {
 	CacheKey string
 	Data     T
@@ -67,6 +69,33 @@ func (c *LRUCache[T]) Add(key string, value T) {
 	if c.LinkedList.Tail == nil {
 		c.LinkedList.Tail = node
 	}
+}
+
+func (c *LRUCache[T]) Print() {
+	fmt.Println("=== LRU Cache Contents ===")
+	fmt.Printf("Size: %d, CurrentSize: %d\n", c.Size, c.CurrentSize)
+
+	current := c.LinkedList.Head
+	position := 0
+
+	fmt.Println("\nOrder (Head -> Tail):")
+	for current != nil {
+		fmt.Printf("  [%d] Key: %s, Value: %v\n", position, current.CacheKey, current.Data)
+
+		// Verify bidirectional links
+		if current.Next != nil && current.Next.Previous != current {
+			fmt.Printf("    WARNING: Broken link detected at position %d\n", position)
+		}
+
+		current = current.Next
+		position++
+	}
+
+	if position != c.CurrentSize {
+		fmt.Printf("\nWARNING: Traversed %d nodes but CurrentSize is %d\n", position, c.CurrentSize)
+	}
+
+	fmt.Println("========================")
 }
 
 func (c *LRUCache[T]) remove(key string) {
