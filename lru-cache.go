@@ -108,17 +108,21 @@ func (c *LRUCache[T]) moveValueToHead(value *Node[T]) {
 }
 
 func (c *LRUCache[T]) trimFromCurrentTail() *Node[T] {
+	if c.CurrentSize == 0 {
+		return nil
+	}
+
 	tail := c.LinkedList.Tail
 	newTail := tail.Previous
-
-	if newTail != nil {
-		newTail.Next = nil
-		c.CurrentSize--
-	}
-
-	if c.CurrentSize == 0 {
+	if c.CurrentSize == 1 {
 		c.LinkedList.Head = nil
+		c.LinkedList.Tail = nil
+		c.CurrentSize--
+		return tail
 	}
 
+	newTail.Next = nil
+	c.CurrentSize--
+	c.LinkedList.Tail = newTail
 	return tail
 }
