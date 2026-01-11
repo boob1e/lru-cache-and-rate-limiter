@@ -41,17 +41,17 @@ func (c *LRUCache[T]) Lookup(key string) (T, bool) {
 }
 
 func (c *LRUCache[T]) Add(key string, value T) {
-	if c.CurrentSize >= c.Size {
-		// remove oldest value first
-		oldTail := c.trimFromCurrentTail()
-		delete(c.Cache, oldTail.CacheKey)
-	}
-
 	val, exists := c.Cache[key]
 	if exists {
 		c.Cache[key].Data = value
 		c.moveValueToHead(val)
 		return
+	}
+
+	if c.CurrentSize >= c.Size {
+		// remove oldest value first
+		oldTail := c.trimFromCurrentTail()
+		delete(c.Cache, oldTail.CacheKey)
 	}
 
 	node := &Node[T]{
